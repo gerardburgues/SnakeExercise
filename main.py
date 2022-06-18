@@ -27,6 +27,7 @@ def update_matrix(snake,matrix):
     """
     for i in range(0,len(snake)):
         matrix[snake[i][0],snake[i][1]] = 1
+    print("Showing updated matrix")
     print(matrix)
 
 def possible_combinations(depth):
@@ -135,7 +136,7 @@ def direction_snake(matrix, snake, comb):
                     aux = snake[i] 
                     snake[i] = previous_pos
                     previous_pos = aux
-                print(snake)
+                
             else:
                 bold = False
                 break
