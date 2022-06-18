@@ -1,15 +1,19 @@
 import numpy as np
-from itertools import combinations_with_replacement,combinations,permutations, product
+from itertools import combinations, product
 import copy
 import argparse
 
-def init_snake():
+
+def init_snake(grid, snake,fresh):
     """
+    init_array: Start position of the snake
+    snake: Cells where the snake appears
+    fresh: init snake that never changes
     Initialize the grid and snake position
     """
-    init_array =  np.zeros(shape=(10,10))
-    snake = [[5,5],[4,5],[4,4],[4,5]]
-
+    init_array =  np.zeros(shape=grid)
+    snake = copy.deepcopy(fresh) # Saving the original snake
+    
     #Setting snake
     for i in range(0,len(snake)):
         init_array[snake[i][0],snake[i][1]] = 1
@@ -50,7 +54,7 @@ def move_snake(combinations, init_array, snake):
     cont = 0
     resultant_array = []
     for i in combinations:
-        init_array, snake = init_snake()
+        init_array, snake = init_snake(grid,snake,fresh)
         if direction_snake(init_array, snake, i) == True:
             cont +=1
             resultant_array.append(i)
@@ -151,10 +155,43 @@ if __name__ == '__main__':
     Before [columns, rows] 
     Now [rows, columns]
     """
+    print("---------INSTRUCTIONS---------")
 
+    print("The first values you must choose are for the grid. \nInsert 2 values rows and columns")
+    print("\n")
+    print("The next step must be inserted after executing")
+    print("Following you must insert the snake positions. You must choose option 1,2 or 3")
+    print("\n")
+    print("The second value you must choose is the depth")
+
+
+    print("------------------------------")
     #Start program
-    init_array, snake = init_snake()
-    combinations  = possible_combinations(4)
+    parser = argparse.ArgumentParser(description="Select values to run test")
+    parser.add_argument("--row",type=int)
+    parser.add_argument("--col",type=int)
+    parser.add_argument("--snake",type=int,default=1)
+    parser.add_argument("--depth",type=int,default=3)
+    args = parser.parse_args()
+    variables = vars(args)
+    
+    
+    row = variables["row"]
+    col = variables["col"]
+    snake = variables["snake"]
+    #fresh = variables["snake"]
+    depth = variables["depth"]
+    if snake == 1:
+        fresh = [[2,2],[2,3],[1,3],[0,3],[0,2],[0,1],[0,0]]
+    elif snake == 2:
+        fresh = [[2,0],[1,0],[0,0],[0,1],[1,1],[2,1]]
+    elif snake == 3:
+        fresh =[[5,5],[5,4],[4,4],[4,5]]
+
+    grid = (row,col)
+    
+    init_array, snake = init_snake(grid, fresh,fresh)
+    combinations  = possible_combinations(depth)
     cont, result = move_snake(combinations, init_array, snake)
     print("We can find: ",  cont)
     print("Those combinations are: ", result)
