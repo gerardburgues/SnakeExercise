@@ -129,7 +129,6 @@ def direction_snake(matrix, snake, comb):
 
         if i == 'Down':
             snake[0][0]= snake[0][0]+1
-            print(snake[0][0])
             varoa = init_array.shape[0]-1
             if snake[0][0] <=  varoa:
                 for i in range(1,len(snake)):
